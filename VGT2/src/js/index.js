@@ -7,6 +7,7 @@ const GAME_HEIGHT = 600;
 ctx.clearRect(0, 0, 800, 600)
 
 class Game {
+
     constructor() {
         console.log('created');
     }

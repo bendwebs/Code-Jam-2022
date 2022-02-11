@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="src/css/style.css">
+    </head>
+    <body>
+
+        <script src="https://unpkg.com/kaboom/dist/kaboom.js"></script>
+        <script type="text/javascript" src="src/js/matter.js"></script>
+        <script src="ground.class.js"></script>
+
+        <script>
+            // initialize context
+            kaboom( {
+                scale: 1,
+                width: 1500,
+                height: 600
+            })
+
+            loadSprite('ground', './floor.png')
+            loadSprite("spike", "./spike2.png")
+
+            const froggy = add([
+                sprite("spike"),
+            ])
+            
+            
+
+            scene("start", () => {
+                add([
+                    text("Click to Start"),
+                    pos(width()/3, 600/2),
+                ])
+
+                onClick(() => go("end"))
+            })
+
+            scene("game", () => {
+                console.log('game')
+            })
+
+            scene("end", () => {
+                scored = 10;
+                add([
+                    text("Game Over"),
+                    pos(24, 24),
+                    { value: 1 },
+                ])
+
+                const score = add([
+                    text("Score: "+scored),
+                    pos(24, 94),
+                    { value: 0 },
+                ])
+            })
+
+            
+            go("start")
+
+
+        </script>
+
+    </body>
+</html>
