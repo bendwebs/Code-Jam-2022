@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+        <script src="https://unpkg.com/kaboom/dist/kaboom.js"></script>
+
+    <script>
+
+        kaboom( {
+            scale: 1,
+            width: 1500,
+            height: 600
+        })
+
+        loadSprite('ground','./ground.png')
+
+        
+        const floorSprites = add([
+            sprite('ground'),
+            pos(0,500),
+            scale(.5)
+        ])
+
+    </script>
+</body>
+
+</html>

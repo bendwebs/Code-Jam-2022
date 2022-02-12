@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+        <script src="https://unpkg.com/kaboom/dist/kaboom.js"></script>
+
+    <script>
+
+        kaboom( {
+            width: 1200,
+            height: 600
+        })
+
+        loadSprite('ground','./ground.png')
+        loadSprite('truck-left','./truck.png')
+
+        scene("game", () => {
+
+            const map = [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "=====               ====",
+            ]
+
+            // Calculate total number of sprites needed to cover canvas height
+            // Canvas height / height of the sprites
+            
+            // Calculate total number of sprites needed to cover canvas width
+            // Canvas width / height of the sprites
+
+            const levelCfg = {
+                width: 50,
+                height: 50,
+                "=": () => [
+                    sprite('ground'),
+                    area(),
+                    solid(),
+                ]
+            }
+
+            addLevel(map, levelCfg)
+
+            const player = add([
+                sprite('truck-left'),
+                rgb(0,255,0),
+                pos(100,100),
+                scale(.75),
+                area(),
+                body(),
+                solid(),
+                { dir: vec2(1,0) }
+            ])
+
+
+            // Add a rectangular object to the scene
+            add( [
+                pos(400, 510),
+                rect(300, 80),
+                outline(4),
+                area(),
+                solid(),
+            ] )
+
+            onKeyDown('right', () => {
+                player.move(200,0)
+            })
+
+            onKeyPress('a', () => {
+                player.jump(450)
+            })
+
+            onKeyDown('left', () => {
+                player.move(-200,0)
+            })
+
+            player.onUpdate( () => {
+                if (player.pos.y > 600) {
+                    console.log('dead')
+                    destroy(player)
+                }
+            })
+
+            
+        })
+
+        go("game")
+
+    </script>
+</body>
+
+</html>

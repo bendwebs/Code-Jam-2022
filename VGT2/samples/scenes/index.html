@@ -11,8 +11,6 @@
     <body>
 
         <script src="https://unpkg.com/kaboom/dist/kaboom.js"></script>
-        <script type="text/javascript" src="src/js/matter.js"></script>
-        <script src="ground.class.js"></script>
 
         <script>
             // initialize context
@@ -21,17 +19,9 @@
                 width: 1500,
                 height: 600
             })
-
-            loadSprite('ground', './floor.png')
-            loadSprite("spike", "./spike2.png")
-
-            const froggy = add([
-                sprite("spike"),
-            ])
             
-            
-
             scene("start", () => {
+                
                 add([
                     text("Click to Start"),
                     pos(width()/3, 600/2),
