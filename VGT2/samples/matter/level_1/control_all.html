@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <script type="text/javascript" src="boxes.js"></script>
+        <script type="text/javascript" src="matter.js"></script>
+
+        <script>
+            let engine = Matter.Engine.create();
+            let render = Matter.Render.create({
+                element: document.body,
+                engine: engine
+            });
+
+            let ground = Matter.Bodies.rectangle(20,600,250,160,{isStatic: true});
+            let cieling = Matter.Bodies.rectangle(0,0,1600,220,{isStatic: true});
+            let mid = Matter.Bodies.rectangle(200,350,80,40,{isStatic: true});
+            let circle = Matter.Bodies.circle(320,200,27,{isStatic: true});
+            let mountain = Matter.Bodies.rectangle(450,600,75,650,{isStatic: true});
+            let goal = Matter.Bodies.rectangle(750,600,100,50,{isStatic: true});
+               
+            // add misc options
+            let canvas = Matter.Mouse.create(render.canvas);
+
+            // adds mouse constraints
+            let mouseConstraint = Matter.MouseConstraint.create(engine, {
+                mouse: canvas,
+                constraint: {
+                    render: {
+                        visible: false,
+                        wireframe: false
+                    }
+                }
+            });
+
+            // generates X number of blocks and adds then to the world
+            // player only controls the first object generated
+            let blocks = [];
+            let numOfSqBlocks = 1;
+
+            for (let i = 0; i < numOfSqBlocks;i++) {
+                let block = new Box();
+                blocks.push(block);
+            }
+
+            function addBlock(blocks) {
+                blocks.forEach(element => {
+                    Matter.World.add(engine.world, [element]);
+                });
+            }
+
+            render.mouse = canvas;
+
+            // create base world + add mouse
+            Matter.World.add(engine.world, [
+                circle,mouseConstraint, ground, mid, mountain, goal,cieling
+            ]);
+
+            // add boxes
+            addBlock(blocks);
+
+            Matter.Runner.run(engine);
+            Matter.Render.run(render);
+
+
+            // movement event listeners
+            document.body.addEventListener("keydown",function(){
+                var code=32; // 32 is keycode of 'space'
+                if(event.keyCode==code)
+                {
+                    for (let i = 0; i < numOfSqBlocks;i++) {
+                        currentPosition = blocks[i].position;
+                        if (currentPosition) {
+                            blocks[i].speed = 1;
+                            blocks[i].position = {
+                                x: currentPosition.x + 1,
+                                y: currentPosition.y - 7
+                            }
+                        }
+                    }
+                }
+            });
+            
+            document.body.addEventListener("keydown",function(){
+                var code=76; // 75 is keycode of 'k'
+                if(event.keyCode==code)
+                {
+                    for (let i = 0; i < numOfSqBlocks;i++) {
+                        currentPosition = blocks[i].position;
+                        if (currentPosition) {
+                            blocks[i].position = {
+                                x: currentPosition.x +1,
+                                y: currentPosition.y +1
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.body.addEventListener("keydown",function(){
+                var code=75; // 75 is keycode of 'k'
+                if(event.keyCode==code)
+                {
+                    for (let i = 0; i < numOfSqBlocks;i++) {
+                        currentPosition = blocks[i].position;
+                        if (currentPosition) {
+                            blocks[i].position = {
+                                x: currentPosition.x -1,
+                                y: currentPosition.y -1
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.body.addEventListener("keydown",function(){
+                var code=72; // 75 is keycode of 'h'
+                if(event.keyCode==code)
+                {
+                    for (let i = 0; i < numOfSqBlocks;i++) {
+                        angle = blocks[i].angle
+                        if (angle) {
+                            blocks[i].angle = angle + .04;
+                        }
+                    }
+                }
+            });
+
+            
+        </script>
+
+
+
+
+        
+    </body>
+</html>

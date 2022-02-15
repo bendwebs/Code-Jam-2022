@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <script type="text/javascript" src="boxes.js"></script>
+        <script type="text/javascript" src="matter.js"></script>
+
+        
+
+        <script>
+            let engine = Matter.Engine.create();
+            let render = Matter.Render.create({
+                element: document.body,
+                engine: engine
+            });
+
+            let ground = Matter.Bodies.rectangle(400,600,810,60,{isStatic: true});
+           
+            // add misc options
+            let canvas = Matter.Mouse.create(render.canvas);
+
+            // adds mouse constraints
+            let mouseConstraint = Matter.MouseConstraint.create(engine, {
+                mouse: canvas,
+                constraint: {
+                    render: {
+                        visible: false,
+                        wireframe: false
+                    }
+                }
+            });
+
+
+
+            
+
+
+            
+
+
+            // generates X number of blocks and adds then to the world
+            let blocks = [];
+            let numOfSqBlocks = 2;
+
+            for (let i = 0; i < numOfSqBlocks;i++) {
+                let block = new Box();
+                blocks.push(block);
+            }
+            function addBlock(blocks) {
+                blocks.forEach(element => {
+                    Matter.World.add(engine.world, [element]);
+                });
+            }
+
+            render.mouse = canvas;
+
+            // create base world + add mouse
+            Matter.World.add(engine.world, [
+                ground,mouseConstraint
+            ]);
+
+            // add boxes
+            addBlock(blocks);
+            Matter.Runner.run(engine);
+            Matter.Render.run(render);
+
+
+
+
+            // movement event listeners
+            document.body.addEventListener("keydown",function(){
+                var code=75; // 75 is keycode of 'k'
+                if(event.keyCode==code)
+                {
+                    currentPosition = blocks[0].position;
+                    if (currentPosition) {
+                        blocks[0].position = {
+                            x: currentPosition.x +1,
+                            y: currentPosition.y +1
+                        }
+                    }
+                }
+            });
+
+            document.body.addEventListener("keydown",function(){
+                var code=76; // 75 is keycode of 'k'
+                if(event.keyCode==code)
+                {
+                    currentPosition = blocks[0].position;
+                    if (currentPosition) {
+                        blocks[0].position = {
+                            x: currentPosition.x -1,
+                            y: currentPosition.y -1
+                        }
+                    }
+                }
+            });
+
+            document.body.addEventListener("keydown",function(){
+                var code=72; // 75 is keycode of 'k'
+                if(event.keyCode==code)
+                {
+                    angle = blocks[0].angle
+                    if (angle) {
+                        blocks[0].angle = angle + .04;
+                    }
+                }
+            });
+
+            
+        </script>
+
+
+
+
+        
+    </body>
+</html>
